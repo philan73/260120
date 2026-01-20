@@ -69,9 +69,9 @@ a{ color: rgba(34,211,238,.95) !important; }
 st.markdown(
     """
 <div class="hero">
-  <h1>안녕하세요 👋 저는 <span style="color: rgba(34,211,238,.95);">김수영</span>입니다</h1>
+  <h1>안녕하세요 👋 저는 <span style="color: rgba(34,211,238,.95);">sue</span>입니다</h1>
   <p class="small" style="margin-top:6px;">
-    교육·연구·콘텐츠를 만들고, AI를 “잘 쓰는 법”을 쉽게 전달하는 일을 합니다.
+    교육·연구·콘텐츠를 만드는 일을 합니다.
     여기는 제 <b>가볍고 짧은 자기소개 페이지</b>예요.
   </p>
   <div class="badges">
