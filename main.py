@@ -1,19 +1,19 @@
 import streamlit as st
 from datetime import datetime
 
-# -----------------------------
+# =========================================================
 # Page
-# -----------------------------
+# =========================================================
 st.set_page_config(
-    page_title="AI 활용 역량 진단 · 맞춤 교육 추천",
+    page_title="AI 활용 역량 진단 · 맞춤 로드맵",
     page_icon="🫧",
     layout="wide",
     initial_sidebar_state="expanded",
 )
 
-# -----------------------------
-# Pastel UI CSS
-# -----------------------------
+# =========================================================
+# Pastel UI CSS (tasteful emojis, soft gradients)
+# =========================================================
 st.markdown(
     """
 <style>
@@ -26,12 +26,11 @@ st.markdown(
   --muted:#516a7c;
   --shadow:0 14px 40px rgba(30, 60, 90, .10);
   --shadow2:0 8px 22px rgba(30, 60, 90, .08);
-  --mint:#bfeee3;
-  --lav:#d9d7ff;
-  --peach:#ffd6cc;
   --sky:#cfe6ff;
+  --lav:#d9d7ff;
+  --mint:#bfeee3;
+  --peach:#ffd6cc;
   --rose:#ffd3ea;
-  --accent:#7aa7ff;
 }
 
 .stApp{
@@ -42,12 +41,16 @@ st.markdown(
     linear-gradient(180deg, var(--bg1), var(--bg2));
   color: var(--txt);
 }
-.block-container{ padding-top: 1.2rem !important; padding-bottom: 2.2rem !important; max-width: 1200px;}
+.block-container{
+  padding-top: 1.15rem !important;
+  padding-bottom: 2.2rem !important;
+  max-width: 1240px;
+}
 h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
 
 .hero{
   border: 1px solid var(--stroke);
-  background: linear-gradient(135deg, rgba(255,255,255,.80), rgba(255,255,255,.68));
+  background: linear-gradient(135deg, rgba(255,255,255,.82), rgba(255,255,255,.68));
   border-radius: 22px;
   padding: 22px 22px 16px 22px;
   box-shadow: var(--shadow);
@@ -58,9 +61,9 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
   content:"";
   position:absolute; inset:-2px;
   background:
-    radial-gradient(520px 220px at 0% 0%, rgba(207,230,255,.75), transparent 60%),
-    radial-gradient(520px 220px at 100% 0%, rgba(255,211,234,.60), transparent 62%),
-    radial-gradient(520px 220px at 50% 120%, rgba(191,238,227,.55), transparent 62%);
+    radial-gradient(540px 220px at 0% 0%, rgba(207,230,255,.75), transparent 60%),
+    radial-gradient(520px 220px at 100% 0%, rgba(255,211,234,.55), transparent 62%),
+    radial-gradient(520px 220px at 50% 120%, rgba(191,238,227,.50), transparent 62%);
   pointer-events:none;
 }
 .pillRow{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px;}
@@ -69,11 +72,12 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
   padding: 7px 10px;
   border-radius: 999px;
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.68);
+  background: rgba(255,255,255,.70);
   box-shadow: var(--shadow2);
   font-size: .92rem;
   color: var(--muted);
 }
+
 .card{
   border: 1px solid var(--stroke);
   background: rgba(255,255,255,.72);
@@ -82,28 +86,42 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
   box-shadow: var(--shadow2);
 }
 .small{ color: var(--muted); font-size: .92rem; }
-.kpi{
-  display:flex; gap:12px; flex-wrap:wrap;
-}
-.kpiBox{
-  flex: 1 1 170px;
-  border:1px solid var(--stroke);
-  border-radius: 16px;
-  padding: 12px 14px;
-  background: rgba(255,255,255,.68);
-  box-shadow: var(--shadow2);
-}
-.kpiTitle{ color: var(--muted); font-size: .85rem; margin-bottom: 2px;}
-.kpiValue{ font-size: 1.18rem; font-weight: 700; }
 .hr{
   height:1px;
   background: linear-gradient(90deg, transparent, rgba(30,60,90,.14), transparent);
   margin: 14px 0;
   border:0;
 }
+
+.kpi{ display:flex; gap:12px; flex-wrap:wrap; }
+.kpiBox{
+  flex: 1 1 190px;
+  border:1px solid var(--stroke);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.70);
+  box-shadow: var(--shadow2);
+}
+.kpiTitle{ color: var(--muted); font-size: .86rem; margin-bottom: 2px;}
+.kpiValue{ font-size: 1.18rem; font-weight: 750; }
+
+.sectionTitle{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.badge{
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border:1px solid var(--stroke);
+  background: rgba(255,255,255,.72);
+  color: var(--muted);
+  font-size: .88rem;
+  box-shadow: var(--shadow2);
+}
+
 .item{
   border: 1px solid var(--stroke);
-  background: rgba(255,255,255,.62);
+  background: rgba(255,255,255,.64);
   border-radius: 16px;
   padding: 12px 14px;
   box-shadow: var(--shadow2);
@@ -114,21 +132,72 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
   display:inline-block; margin-right: 8px; margin-top: 6px;
   padding: 6px 10px; border-radius: 999px;
   border:1px solid var(--stroke);
-  background: rgba(255,255,255,.70);
+  background: rgba(255,255,255,.74);
   color: var(--muted);
   font-size: .86rem;
 }
-.note{
-  border: 1px dashed rgba(30,60,90,.22);
-  background: rgba(255,255,255,.55);
-  border-radius: 16px;
-  padding: 12px 14px;
-  color: var(--muted);
+
+/* Roadmap lanes */
+.lanes{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
 }
+.lane{
+  border: 1px solid var(--stroke);
+  background: linear-gradient(135deg, rgba(255,255,255,.78), rgba(255,255,255,.62));
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: var(--shadow2);
+  position: relative;
+  overflow: hidden;
+}
+.lane:before{
+  content:"";
+  position:absolute; inset:-2px;
+  opacity:.55;
+  background: radial-gradient(520px 200px at 0% 0%, rgba(207,230,255,.65), transparent 60%);
+  pointer-events:none;
+}
+.laneHeader{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px;
+  position: relative;
+}
+.laneTitle{
+  font-weight: 800;
+  font-size: 1.02rem;
+}
+.laneMeta{ color: var(--muted); font-size: .90rem; margin-top: 3px; }
+
+.flow{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+  position: relative;
+}
+.step{
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,.74);
+  border-radius: 16px;
+  padding: 12px 12px;
+  box-shadow: var(--shadow2);
+}
+.stepTitle{ font-weight: 750; }
+.stepDesc{ color: var(--muted); font-size:.90rem; margin-top:4px; }
+.stepTags{ margin-top: 7px; }
+.arrow{
+  text-align:center;
+  color: rgba(25,50,74,.55);
+  font-size: 1.1rem;
+  margin: -4px 0 -2px 0;
+}
+
+/* Buttons */
 .stButton>button{
   border-radius: 999px !important;
   border: 1px solid rgba(30,60,90,.16) !important;
-  background: linear-gradient(135deg, rgba(122,167,255,.55), rgba(191,238,227,.75)) !important;
+  background: linear-gradient(135deg, rgba(207,230,255,.95), rgba(191,238,227,.95)) !important;
   color: #16324a !important;
   box-shadow: var(--shadow2);
   padding: .62rem 1.05rem !important;
@@ -136,7 +205,7 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
 .stDownloadButton>button{
   border-radius: 999px !important;
   border: 1px solid rgba(30,60,90,.16) !important;
-  background: linear-gradient(135deg, rgba(255,211,234,.78), rgba(217,215,255,.72)) !important;
+  background: linear-gradient(135deg, rgba(255,211,234,.92), rgba(217,215,255,.90)) !important;
   color: #16324a !important;
   box-shadow: var(--shadow2);
 }
@@ -145,201 +214,177 @@ h1,h2,h3,h4, p, span, label, div { color: var(--txt); }
     unsafe_allow_html=True,
 )
 
-# -----------------------------
-# Model: competencies & recommendations
-# -----------------------------
-COMPETENCIES = [
+# =========================================================
+# Diagnostic model (4 dimensions, 16 items)
+# =========================================================
+DIMENSIONS = [
     {
-        "key": "problem",
-        "name": "문제정의 & 목표설정",
-        "icon": "🧭",
-        "desc": "과제의 목적·제약·평가기준을 명확히 하고, AI에 맡길 범위를 구분하는 역량",
-        "low_fix": [
-            "과제 목표를 1문장으로 재정의(누구에게/무엇을/왜/어떤 제약)하기",
-            "평가기준(정확성·근거·표현·윤리)을 미리 체크리스트로 만들기",
-        ],
-        "mid_fix": [
-            "입력 자료·맥락·용어 정의를 먼저 정리한 뒤 프롬프트 작성하기",
-            "산출물 형식(표/요약/보고서)과 길이·톤을 사전에 고정하기",
-        ],
-        "high_fix": [
-            "여러 접근법(비교안)과 의사결정 기준을 세워 A/B로 검토하기",
-            "업무 흐름에 맞춘 템플릿(요청서/평가기준)을 만들고 재사용하기",
-        ],
-    },
-    {
-        "key": "prompt",
-        "name": "프롬프트 설계 & 대화전략",
-        "icon": "✍️",
-        "desc": "명확한 지시·역할·맥락·출력 조건으로 원하는 결과를 안정적으로 얻는 역량",
-        "low_fix": [
-            "‘역할-목표-자료-제약-출력형식’ 5요소 템플릿으로 요청하기",
-            "한 번에 큰 요청 대신, 단계(초안→검토→개선)로 나누기",
-        ],
-        "mid_fix": [
-            "샘플(좋은/나쁜 예시)을 함께 제공해 출력 품질을 고정하기",
-            "검증 질문(근거/가정/불확실성)을 자동으로 포함시키기",
-        ],
-        "high_fix": [
-            "반복 작업은 프롬프트 라이브러리(카드/노션/문서)로 축적하기",
-            "작업 유형별 프롬프트(요약/비교/루브릭/코드) 템플릿 표준화하기",
-        ],
-    },
-    {
-        "key": "verify",
-        "name": "검증 & 근거 기반 사고",
-        "icon": "🔎",
-        "desc": "AI 결과의 사실성·논리·출처를 점검하고, 오류를 수정·보완하는 역량",
-        "low_fix": [
-            "핵심 주장 3개를 뽑아 ‘근거가 있는지’부터 확인하기",
-            "수치/인용/정책 같은 고위험 정보는 원문 출처 확인하기",
-        ],
-        "mid_fix": [
-            "‘가정-근거-반례’ 질문으로 결과를 재검토하게 하기",
-            "자기 평가 루브릭(정확·명확·근거·윤리)을 적용해 수정하기",
-        ],
-        "high_fix": [
-            "검증 체크리스트를 자동화(항목화)해 매번 동일 기준 적용하기",
-            "다른 모델/자료로 교차검증하거나, 상반된 관점 비교하기",
-        ],
-    },
-    {
-        "key": "ethics",
-        "name": "학습윤리 & 책임 있는 활용",
-        "icon": "🫧",
-        "desc": "표절·허위·저작권·개인정보를 고려하고, 본인 기여를 투명하게 관리하는 역량",
-        "low_fix": [
-            "AI 사용 범위(초안/교정/아이디어)를 과제에 투명하게 표시하기",
-            "개인정보/민감정보는 입력하지 않기(익명화/요약) 습관화하기",
-        ],
-        "mid_fix": [
-            "인용·참고문헌 규칙을 적용하고, ‘AI가 만든 문장’ 그대로 제출하지 않기",
-            "학습 목적이면 ‘내 문장으로 재구성’ 단계를 반드시 넣기",
-        ],
-        "high_fix": [
-            "과정 로그(질문-수정-근거)를 남겨 기여도와 학습을 증빙하기",
-            "저작권/라이선스(이미지·데이터) 체크 루틴을 운영하기",
-        ],
+        "key": "knowledge",
+        "name": "AI 지식",
+        "icon": "🧠",
+        "tone": "개념을 이해하고 올바르게 설명·적용하는 힘",
+        "pill": "개념·한계·용어",
     },
     {
         "key": "workflow",
         "name": "도구 활용 & 학습 워크플로우",
         "icon": "🧩",
-        "desc": "AI를 조사·정리·작성·피드백 루프에 통합해 생산성과 학습효과를 높이는 역량",
-        "low_fix": [
-            "작업을 ‘자료수집→초안→검토→개선’ 4단계로 분해해 AI를 배치하기",
-            "결과물을 ‘표/목차/요약’으로 먼저 뽑고, 나중에 문장화하기",
-        ],
-        "mid_fix": [
-            "노트/문서 템플릿으로 반복 작업 시간을 줄이기",
-            "과제별 체크리스트(마감·형식·루브릭)를 붙여 관리하기",
-        ],
-        "high_fix": [
-            "나만의 워크플로우(프롬프트+체크리스트+템플릿) 묶음 만들기",
-            "팀 작업에서는 역할/기여/버전 관리를 체계화하기",
-        ],
+        "tone": "과제 흐름에 맞춰 AI를 배치해 생산성과 학습효과를 높이는 힘",
+        "pill": "단계화·템플릿",
+    },
+    {
+        "key": "critical",
+        "name": "비판적 사고",
+        "icon": "🔎",
+        "tone": "근거·가정·반례를 점검하며 결과를 개선하는 힘",
+        "pill": "검증·논리",
+    },
+    {
+        "key": "ethics",
+        "name": "학습 윤리",
+        "icon": "🫧",
+        "tone": "표절·저작권·개인정보·기여도 등 책임 있는 활용",
+        "pill": "투명성·책임",
     },
 ]
 
-PROGRAM_LIBRARY = {
-    "foundation": [
-        ("AI 활용 기초: 좋은 질문 만들기", "1.5h", ["문제정의", "프롬프트"], "입력-출력 구조 이해, 템플릿 실습"),
-        ("학습윤리 & 저작권/표절 예방", "1h", ["윤리"], "AI 활용 범위 표기, 인용 규칙, 사례 기반"),
-        ("AI 결과 검증 입문", "1h", ["검증"], "사실/논리/출처 점검 루틴 만들기"),
-    ],
-    "practice": [
-        ("프롬프트 스튜디오: 과제 유형별 템플릿", "2h", ["프롬프트", "워크플로우"], "요약/비교/보고서/루브릭 템플릿 제작"),
-        ("리서치 워크플로우: 자료→초안→개선", "2h", ["워크플로우", "검증"], "근거 정리표, 체크리스트, 재작성"),
-        ("AI와 협업 글쓰기(내 문장으로 재구성)", "2h", ["윤리", "프롬프트"], "초안 생성→근거→재구성 훈련"),
-    ],
-    "advanced": [
-        ("평가 루브릭으로 품질 고도화", "2h", ["검증", "문제정의"], "루브릭 기반 자기평가/개선"),
-        ("팀 프로젝트: AI 활용 로그 & 기여도 관리", "2h", ["윤리", "워크플로우"], "기여도 기록, 버전 관리, 역할 설계"),
-        ("캡스톤: 나만의 AI 학습 시스템 만들기", "3h", ["워크플로우", "프롬프트", "검증"], "개인 템플릿/체크리스트 패키징"),
-    ],
+# 16 items (4 per dimension). Likert 1~5
+ITEMS = [
+    # AI Knowledge (4)
+    {"dim": "knowledge", "q": "생성형 AI의 강점과 한계(환각·편향·최신성 등)를 설명할 수 있다."},
+    {"dim": "knowledge", "q": "내 과제에서 AI가 잘하는 일/하면 안 되는 일을 구분할 수 있다."},
+    {"dim": "knowledge", "q": "모델 출력이 왜 달라지는지(입력 맥락·지시·데이터)에 대해 이해한다."},
+    {"dim": "knowledge", "q": "AI 활용 시 필요한 기본 용어(프롬프트, 컨텍스트, 토큰, RAG 등)를 대략 이해한다."},
+
+    # Workflow (4)
+    {"dim": "workflow", "q": "과제를 ‘자료수집→구조화→초안→검토→개선’ 단계로 나눠 AI를 배치한다."},
+    {"dim": "workflow", "q": "반복 작업을 템플릿(요청서/목차/체크리스트)으로 만들어 재사용한다."},
+    {"dim": "workflow", "q": "출력물을 표/요약/목차 등 구조로 먼저 만들고 문장화한다."},
+    {"dim": "workflow", "q": "AI를 활용한 작업 기록(프롬프트/수정/근거)을 남겨 관리한다."},
+
+    # Critical Thinking (4)
+    {"dim": "critical", "q": "AI 결과의 핵심 주장/근거를 분리해 확인한다."},
+    {"dim": "critical", "q": "불확실한 내용은 ‘가정·근거·반례’를 질문해 재검토한다."},
+    {"dim": "critical", "q": "수치·정책·인용 등 고위험 정보는 원문/신뢰 출처로 교차검증한다."},
+    {"dim": "critical", "q": "결과를 그대로 쓰지 않고, 내 판단으로 수정·보완해 품질을 높인다."},
+
+    # Ethics (4)
+    {"dim": "ethics", "q": "과제에서 AI 사용 범위(초안/교정/아이디어 등)를 투명하게 표시한다."},
+    {"dim": "ethics", "q": "저작권/인용 규칙을 지키며, 무단 전재·표절을 피한다."},
+    {"dim": "ethics", "q": "개인정보/민감정보는 입력하지 않으며 필요 시 익명화한다."},
+    {"dim": "ethics", "q": "AI 생성문장을 그대로 제출하지 않고, 내 문장으로 재구성한다."},
+]
+
+# Improvements by level
+IMPROVEMENTS = {
+    "knowledge": {
+        "low": ["핵심 개념 10개(환각·편향·최신성·근거 등) 1페이지 정리", "‘AI가 잘/못하는 일’ 체크리스트를 과제마다 적용"],
+        "mid": ["내 전공 사례로 ‘AI 사용 가능 범위’ 기준 문장화", "출력 품질 변동 요인을 기록해 재현 가능하게 만들기"],
+        "high": ["복수 접근(대안) 비교로 최적 전략 선택", "전공별 고위험 영역(법/의료/데이터) 위험관리 규칙 만들기"],
+    },
+    "workflow": {
+        "low": ["과제 흐름 5단계(수집-구조-초안-검토-개선)로 분해", "출력 형식(표/목차/요약)을 먼저 고정"],
+        "mid": ["과제 유형별 템플릿 3종(요약/비교/보고서) 만들기", "작업 로그(프롬프트-수정-근거) 간단히 남기기"],
+        "high": ["나만의 워크플로우 패키지(템플릿+체크리스트) 구축", "팀 협업에서 역할/기여/버전관리 규칙 적용"],
+    },
+    "critical": {
+        "low": ["핵심 주장 3개 뽑기 → 근거 여부만 먼저 확인", "출처가 필요한 문장에는 ‘근거/링크 요청’ 습관화"],
+        "mid": ["가정-근거-반례 질문을 프롬프트에 기본 포함", "루브릭(정확·근거·명확·윤리)로 자기점검 후 수정"],
+        "high": ["교차검증(다른 출처/관점) 루틴 고도화", "반박 가능한 지점(약점)을 선제적으로 보완"],
+    },
+    "ethics": {
+        "low": ["AI 사용 범위 표기 템플릿을 과제에 붙이기", "개인정보 입력 금지/익명화 규칙 만들기"],
+        "mid": ["인용·저작권 체크리스트(이미지·표·데이터) 적용", "‘내 문장 재구성’ 단계를 제출 전 필수로"],
+        "high": ["과정 로그로 기여도/학습을 증빙(투명성 강화)", "팀 프로젝트 윤리 규칙(공동작성/AI 사용 합의) 운영"],
+    },
 }
 
-def level_from_score(avg):
+def level(avg: float):
     if avg < 2.4:
-        return "기초", "🌱"
-    elif avg < 3.6:
-        return "중간", "🌿"
-    else:
-        return "심화", "🌟"
+        return "기초", "🌱", "지금은 ‘기본 루틴’을 안정적으로 만드는 단계예요."
+    if avg < 3.6:
+        return "중간", "🌿", "기본 활용은 가능! ‘품질·검증·재사용성’을 강화하면 좋아요."
+    return "심화", "✨", "상당히 능숙! ‘표준화·협업·고도화’로 확장해볼 단계예요."
 
-def pick_programs(avg, weakest_keys):
-    # 기본: 수준별 1~2개 + 약점 영역 보완 1개
-    foundation = PROGRAM_LIBRARY["foundation"][:]
-    practice = PROGRAM_LIBRARY["practice"][:]
-    advanced = PROGRAM_LIBRARY["advanced"][:]
+def band(score: float):
+    if score <= 2.4:
+        return "low"
+    if score <= 3.6:
+        return "mid"
+    return "high"
 
-    if avg < 2.4:
-        base = [foundation[0], foundation[2], foundation[1]]
-        extra = practice[0]
-    elif avg < 3.6:
-        base = [practice[1], practice[0], foundation[1]]
-        extra = advanced[0]
-    else:
-        base = [advanced[2], advanced[0], advanced[1]]
-        extra = practice[1]
+# Program library: for each dimension, connect Tips -> Course -> Extracurricular
+PROGRAMS = {
+    "knowledge": {
+        "course": [
+            {"title": "AI 리터러시(기초)", "hours": "2학점(또는 8주)", "desc": "생성형 AI 개념·한계·전공 적용 기준", "tags": ["개념", "한계", "전공사례"]},
+            {"title": "AI 이해와 사회(심화)", "hours": "3학점(또는 15주)", "desc": "편향·신뢰성·데이터 기반 사고 확장", "tags": ["편향", "신뢰", "데이터"]},
+        ],
+        "extra": [
+            {"title": "AI 용어·사례 마이크로러닝", "hours": "60분", "desc": "핵심 개념 10개를 사례로 빠르게 정리", "tags": ["마이크로", "퀴즈"]},
+            {"title": "전공별 AI 활용 세미나", "hours": "90분", "desc": "전공 과제에 맞춘 ‘가능/금지/주의’ 기준 만들기", "tags": ["전공", "사례"]},
+        ],
+    },
+    "workflow": {
+        "course": [
+            {"title": "AI 기반 학습전략/글쓰기", "hours": "2학점(또는 8주)", "desc": "자료→구조→초안→검토→개선 워크플로우 설계", "tags": ["워크플로우", "템플릿"]},
+            {"title": "데이터/리서치 방법과 AI", "hours": "3학점(또는 15주)", "desc": "조사 설계·정리·리포트 자동화", "tags": ["리서치", "자동화"]},
+        ],
+        "extra": [
+            {"title": "프롬프트 & 템플릿 스튜디오", "hours": "2시간", "desc": "요약/비교/보고서 템플릿 3종 제작", "tags": ["템플릿", "실습"]},
+            {"title": "개인 워크플로우 클리닉", "hours": "1시간", "desc": "내 과제 기반으로 루틴을 1개 완성", "tags": ["클리닉", "개별"]},
+        ],
+    },
+    "critical": {
+        "course": [
+            {"title": "비판적 사고와 논증", "hours": "2~3학점", "desc": "가정-근거-반례로 사고 구조화", "tags": ["논증", "근거"]},
+            {"title": "정보검증/미디어 리터러시", "hours": "2학점", "desc": "출처·팩트체크·통계 해석", "tags": ["팩트체크", "통계"]},
+        ],
+        "extra": [
+            {"title": "AI 결과 검증 실습랩", "hours": "2시간", "desc": "오류 찾기→수정→근거 정리 훈련", "tags": ["검증", "실습"]},
+            {"title": "루브릭 기반 자기점검 워크숍", "hours": "90분", "desc": "정확·근거·명확·윤리 루브릭 적용", "tags": ["루브릭", "품질"]},
+        ],
+    },
+    "ethics": {
+        "course": [
+            {"title": "학습윤리/연구윤리", "hours": "1~2학점", "desc": "표절·인용·저작권·기여도", "tags": ["표절", "인용"]},
+            {"title": "AI 윤리와 거버넌스", "hours": "2~3학점", "desc": "책임 있는 사용, 개인정보·편향·안전", "tags": ["책임", "개인정보"]},
+        ],
+        "extra": [
+            {"title": "AI 사용 범위 표기 클리닉", "hours": "45분", "desc": "과제에 붙일 ‘AI 활용 공개문’ 템플릿 완성", "tags": ["투명성", "템플릿"]},
+            {"title": "저작권·인용 가이드 세션", "hours": "60분", "desc": "이미지/표/데이터 라이선스 체크", "tags": ["저작권", "체크"]},
+        ],
+    },
+}
 
-    # 약점 키 기반으로 한 개 더 맞춤
-    tag_map = {
-        "problem": "문제정의",
-        "prompt": "프롬프트",
-        "verify": "검증",
-        "ethics": "윤리",
-        "workflow": "워크플로우",
-    }
-    targets = [tag_map[k] for k in weakest_keys]
-    all_programs = foundation + practice + advanced
-
-    tailored = None
-    for p in all_programs:
-        if any(t in p[2] for t in targets):
-            tailored = p
-            break
-
-    recs = base[:]
-    if tailored and tailored not in recs:
-        recs.append(tailored)
-    if extra and extra not in recs:
-        recs.append(extra)
-
-    # 최대 4개
-    return recs[:4]
-
-# -----------------------------
+# =========================================================
 # Sidebar
-# -----------------------------
+# =========================================================
 with st.sidebar:
     st.markdown("### 설정")
-    st.caption("파스텔톤 UI · 대학생 AI 활용 역량 진단")
+    st.caption("진단 → 개선 → 교과/비교과 로드맵")
     st.markdown("---")
-    mode = st.radio("진단 방식", ["자가진단(슬라이더)", "간단 설문(라디오)"], index=0)
+    mode = st.radio("응답 방식", ["슬라이더(1~5)", "라디오(1~5)"], index=0)
     st.markdown("---")
-    st.markdown("**출력 옵션**")
-    show_tips = st.checkbox("개선 팁 보기", value=True)
-    show_programs = st.checkbox("교육 프로그램 추천 보기", value=True)
+    show_details = st.checkbox("문항 설명/세부 팁 펼치기", value=False)
     show_download = st.checkbox("결과 다운로드", value=True)
 
-# -----------------------------
+# =========================================================
 # Hero
-# -----------------------------
+# =========================================================
 st.markdown(
     """
 <div class="hero">
-  <h1>AI 활용 역량 진단 · 맞춤 교육 추천</h1>
+  <h1>AI 활용 역량 진단 · 맞춤 학습 로드맵</h1>
   <p class="small" style="margin-top:6px;">
-    🫧 대학생이 AI를 <b>잘, 그리고 책임 있게</b> 활용하도록 돕는 진로·학습 지원 도구입니다.
-    5개 영역을 진단하고, 결과에 따라 개선 방향과 추천 프로그램을 제안합니다.
+    🫧 4개 영역(지식·워크플로우·비판적 사고·윤리)을 진단하고, <b>개선 행동</b>과 <b>교과·비교과 프로그램</b>을
+    하나의 흐름으로 연결해 추천합니다.
   </p>
   <div class="pillRow">
-    <span class="pill">🧭 문제정의</span>
-    <span class="pill">✍️ 프롬프트</span>
-    <span class="pill">🔎 검증</span>
-    <span class="pill">🫧 윤리</span>
-    <span class="pill">🧩 워크플로우</span>
+    <span class="pill">🧠 AI 지식</span>
+    <span class="pill">🧩 도구·워크플로우</span>
+    <span class="pill">🔎 비판적 사고</span>
+    <span class="pill">🫧 학습 윤리</span>
   </div>
 </div>
 """,
@@ -348,74 +393,77 @@ st.markdown(
 
 st.write("")
 
-# -----------------------------
+# =========================================================
 # Inputs
-# -----------------------------
-scores = {}
+# =========================================================
 left, right = st.columns([1.05, 0.95], gap="large")
 
 with left:
     st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.markdown("### 진단 문항")
-    st.caption("각 항목은 1(아직 어려움) ~ 5(매우 능숙) 기준으로 응답하세요.")
+    st.markdown("### 진단 문항 (총 16문항)")
+    st.caption("각 문항은 1(아직 어려움) ~ 5(매우 능숙) 기준으로 응답하세요.")
 
-    for c in COMPETENCIES:
-        if mode == "자가진단(슬라이더)":
-            val = st.slider(
-                f"{c['icon']} {c['name']}",
-                min_value=1,
-                max_value=5,
-                value=3,
-                help=c["desc"],
-                key=c["key"],
-            )
+    responses = []
+    for i, it in enumerate(ITEMS, 1):
+        label = f"{i:02d}. {it['q']}"
+        key = f"item_{i}"
+        if mode.startswith("슬라이더"):
+            val = st.slider(label, 1, 5, 3, key=key)
         else:
-            val = st.radio(
-                f"{c['icon']} {c['name']}",
-                options=[1, 2, 3, 4, 5],
-                index=2,
-                horizontal=True,
-                help=c["desc"],
-                key=c["key"],
-            )
-        scores[c["key"]] = float(val)
+            val = st.radio(label, [1, 2, 3, 4, 5], index=2, horizontal=True, key=key)
+        responses.append((it["dim"], float(val)))
+
+    if show_details:
+        st.markdown("<hr class='hr'/>", unsafe_allow_html=True)
+        st.markdown("**영역 안내**")
+        for d in DIMENSIONS:
+            st.markdown(f"- {d['icon']} **{d['name']}**: {d['tone']}")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
+# =========================================================
+# Compute scores
+# =========================================================
+dim_scores = {d["key"]: [] for d in DIMENSIONS}
+for dim, v in responses:
+    dim_scores[dim].append(v)
+
+dim_avg = {k: (sum(vs) / len(vs) if vs else 0.0) for k, vs in dim_scores.items()}
+overall = sum(dim_avg.values()) / len(dim_avg) if dim_avg else 0.0
+
+sorted_dims = sorted(dim_avg.items(), key=lambda x: x[1])
+weakest = [k for k, _ in sorted_dims[:2]]
+strongest = [k for k, _ in sorted(dim_avg.items(), key=lambda x: -x[1])[:2]]
+
+lvl_name, lvl_icon, lvl_msg = level(overall)
+
+dim_map = {d["key"]: d for d in DIMENSIONS}
+
+# =========================================================
+# Summary (right)
+# =========================================================
 with right:
-    # Compute results
-    avg = sum(scores.values()) / len(scores)
-    lvl, lvl_icon = level_from_score(avg)
-
-    # Rank
-    sorted_items = sorted(scores.items(), key=lambda x: x[1])
-    weakest = [k for k, _ in sorted_items[:2]]
-    strongest = [k for k, _ in sorted(scores.items(), key=lambda x: -x[1])[:2]]
-
-    key_to_name = {c["key"]: c["name"] for c in COMPETENCIES}
-    key_to_icon = {c["key"]: c["icon"] for c in COMPETENCIES}
-    programs = pick_programs(avg, weakest)
-
     st.markdown('<div class="card">', unsafe_allow_html=True)
     st.markdown("### 결과 요약")
+
     st.markdown(
         f"""
 <div class="kpi">
   <div class="kpiBox">
     <div class="kpiTitle">종합 수준</div>
-    <div class="kpiValue">{lvl_icon} {lvl}</div>
+    <div class="kpiValue">{lvl_icon} {lvl_name}</div>
   </div>
   <div class="kpiBox">
     <div class="kpiTitle">종합 점수(평균)</div>
-    <div class="kpiValue">{avg:.2f} / 5.00</div>
+    <div class="kpiValue">{overall:.2f} / 5.00</div>
   </div>
   <div class="kpiBox">
     <div class="kpiTitle">강점 TOP2</div>
-    <div class="kpiValue">{key_to_icon[strongest[0]]} {key_to_icon[strongest[1]]}</div>
+    <div class="kpiValue">{dim_map[strongest[0]]['icon']} {dim_map[strongest[1]]['icon']}</div>
   </div>
   <div class="kpiBox">
     <div class="kpiTitle">개선 우선 TOP2</div>
-    <div class="kpiValue">{key_to_icon[weakest[0]]} {key_to_icon[weakest[1]]}</div>
+    <div class="kpiValue">{dim_map[weakest[0]]['icon']} {dim_map[weakest[1]]['icon']}</div>
   </div>
 </div>
 <hr class="hr"/>
@@ -423,119 +471,205 @@ with right:
         unsafe_allow_html=True,
     )
 
+    st.markdown(f"<div class='small'>💬 {lvl_msg}</div>", unsafe_allow_html=True)
+    st.markdown("<hr class='hr'/>", unsafe_allow_html=True)
+
     st.markdown("**영역별 점수**")
-    for c in COMPETENCIES:
-        st.progress(scores[c["key"]] / 5.0, text=f"{c['icon']} {c['name']} · {scores[c['key']]:.0f}/5")
+    for d in DIMENSIONS:
+        s = dim_avg[d["key"]]
+        st.progress(s / 5.0, text=f"{d['icon']} {d['name']} · {s:.2f}/5")
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-# -----------------------------
-# Recommendations
-# -----------------------------
+# =========================================================
+# Roadmap (tips -> courses -> extracurricular) VISUAL
+# =========================================================
+st.write("")
+st.markdown('<div class="card">', unsafe_allow_html=True)
+st.markdown(
+    """
+<div class="sectionTitle">
+  <h3 style="margin:0;">맞춤 로드맵(영역별 흐름)</h3>
+  <span class="badge">개선 행동 → 교과 → 비교과</span>
+</div>
+<p class="small" style="margin-top:6px;">
+점수가 낮은 영역은 <b>즉시 행동 팁</b>을 먼저 제시하고, 그 다음 <b>교과(정규)</b>와 <b>비교과(워크숍/클리닉)</b>를 이어서 추천합니다.
+</p>
+""",
+    unsafe_allow_html=True,
+)
+
+# Choose which dims to show first: weakest first then others
+ordered_dim_keys = weakest + [k for k, _ in sorted(dim_avg.items(), key=lambda x: x[1]) if k not in weakest]
+
+lanes_html = "<div class='lanes'>"
+for k in ordered_dim_keys:
+    d = dim_map[k]
+    s = dim_avg[k]
+    b = band(s)
+    tips = IMPROVEMENTS[k][b][:2]  # keep visually clean
+    course = PROGRAMS[k]["course"][0] if PROGRAMS[k]["course"] else None
+    extra = PROGRAMS[k]["extra"][0] if PROGRAMS[k]["extra"] else None
+
+    priority_badge = "우선 개선" if k in weakest else "유지/고도화"
+    lane = f"""
+<div class="lane">
+  <div class="laneHeader">
+    <div>
+      <div class="laneTitle">{d['icon']} {d['name']}</div>
+      <div class="laneMeta">{d['tone']}</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="badge">점수 {s:.2f}/5</div>
+      <div style="margin-top:6px;" class="badge">{priority_badge}</div>
+    </div>
+  </div>
+
+  <div class="flow">
+    <div class="step">
+      <div class="stepTitle">① 개선 행동(바로 적용)</div>
+      <div class="stepDesc">아래 2가지만 먼저 실행해도 점수 상승이 빨라요.</div>
+      <div class="stepTags">
+        {''.join([f'<span class="tag">• {t}</span>' for t in tips])}
+      </div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="stepTitle">② 교과 추천(정규)</div>
+      <div class="stepDesc"><b>{course['title']}</b> · {course['hours']}<br/>{course['desc']}</div>
+      <div class="stepTags">
+        {''.join([f'<span class="tag">{x}</span>' for x in course['tags']])}
+      </div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="step">
+      <div class="stepTitle">③ 비교과 추천(워크숍/클리닉)</div>
+      <div class="stepDesc"><b>{extra['title']}</b> · {extra['hours']}<br/>{extra['desc']}</div>
+      <div class="stepTags">
+        {''.join([f'<span class="tag">{x}</span>' for x in extra['tags']])}
+      </div>
+    </div>
+  </div>
+</div>
+"""
+    lanes_html += lane
+
+lanes_html += "</div>"
+
+st.markdown(lanes_html, unsafe_allow_html=True)
+
+st.markdown(
+    """
+<div class="small" style="margin-top:10px;">
+💡 운영 팁: ‘비교과(짧은 실습) → 교과(체계적 학습) → 비교과(개인화 클리닉)’처럼 왕복 설계하면 학습 전이가 좋아요.
+</div>
+""",
+    unsafe_allow_html=True,
+)
+st.markdown("</div>", unsafe_allow_html=True)
+
+# =========================================================
+# Prioritized action plan (compact)
+# =========================================================
 st.write("")
 colA, colB = st.columns([1, 1], gap="large")
 
 with colA:
-    if show_tips:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### 개선 방향 (우선순위 기반)")
-        st.caption("점수가 낮은 영역부터 ‘바로 적용 가능한’ 행동 팁을 제안합니다.")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 우선 개선 TOP2: 2주 미니 플랜")
+    st.caption("가볍게 시작해서 습관화하는 구성입니다.")
 
-        for k in weakest:
-            c = next(x for x in COMPETENCIES if x["key"] == k)
-            s = scores[k]
-            if s <= 2:
-                tips = c["low_fix"]
-            elif s <= 3:
-                tips = c["mid_fix"]
-            else:
-                tips = c["high_fix"]
-
-            st.markdown(
-                f"""
-<div class="item">
-  <b>{c["icon"]} {c["name"]}</b>
-  <div class="small" style="margin-top:4px;">{c["desc"]}</div>
-  <div style="margin-top:8px;">
-    {''.join([f'<span class="tag">• {t}</span>' for t in tips])}
-  </div>
-</div>
-""",
-                unsafe_allow_html=True,
-            )
-
+    for k in weakest:
+        d = dim_map[k]
+        s = dim_avg[k]
+        tips = IMPROVEMENTS[k][band(s)]
         st.markdown(
-            """
-<div class="note">
-  <b>짧은 루틴 추천</b><br/>
-  ① 과제 목표 1문장 → ② 프롬프트(5요소) → ③ 결과 검증(근거/가정/반례) → ④ 내 문장으로 재작성 → ⑤ AI 활용 범위 기록
+            f"""
+<div class="item">
+  <b>{d['icon']} {d['name']}</b>
+  <div class="small" style="margin-top:4px;">권장 루틴(2주):</div>
+  <div style="margin-top:8px;">
+    <span class="tag">1주차 · {tips[0]}</span>
+    <span class="tag">2주차 · {tips[1]}</span>
+  </div>
 </div>
 """,
             unsafe_allow_html=True,
         )
 
-        st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 with colB:
-    if show_programs:
-        st.markdown('<div class="card">', unsafe_allow_html=True)
-        st.markdown("### 맞춤 교육 프로그램 추천")
-        st.caption("수준 + 약점 영역을 반영한 추천입니다. (교내 비교과/워크숍 형태로 구성 가능)")
+    st.markdown('<div class="card">', unsafe_allow_html=True)
+    st.markdown("### 강점 TOP2: 유지·고도화 제안")
+    st.caption("잘하는 영역은 ‘표준화’와 ‘재사용’으로 성과를 키워요.")
 
-        for (title, duration, tags, desc) in programs:
-            tag_str = " · ".join(tags)
-            st.markdown(
-                f"""
+    for k in strongest:
+        d = dim_map[k]
+        s = dim_avg[k]
+        hi = IMPROVEMENTS[k]["high"][0]
+        st.markdown(
+            f"""
 <div class="item">
-  <b>🎓 {title}</b>
-  <div class="small" style="margin-top:4px;">⏱️ {duration} · 🧩 {tag_str}</div>
-  <div class="small" style="margin-top:6px;">{desc}</div>
+  <b>{d['icon']} {d['name']}</b>
+  <div class="small" style="margin-top:6px;">{hi}</div>
+  <div style="margin-top:8px;">
+    <span class="tag">점수 {s:.2f}/5</span>
+    <span class="tag">재사용/표준화</span>
+  </div>
 </div>
 """,
-                unsafe_allow_html=True,
-            )
+            unsafe_allow_html=True,
+        )
 
-        st.markdown("</div>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-# -----------------------------
+# =========================================================
 # Download
-# -----------------------------
+# =========================================================
 if show_download:
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     lines = [
         f"AI 활용 역량 진단 결과 ({now})",
-        f"- 종합 수준: {lvl} ({avg:.2f}/5.00)",
+        f"- 종합: {lvl_name} ({overall:.2f}/5.00)",
         "",
         "[영역별 점수]",
     ]
-    for c in COMPETENCIES:
-        lines.append(f"- {c['name']}: {scores[c['key']]:.0f}/5")
-
-    lines.append("")
-    lines.append("[강점 TOP2]")
-    for k in strongest:
-        lines.append(f"- {key_to_name[k]}")
+    for d in DIMENSIONS:
+        lines.append(f"- {d['name']}: {dim_avg[d['key']]:.2f}/5.00")
 
     lines.append("")
     lines.append("[개선 우선 TOP2]")
     for k in weakest:
-        lines.append(f"- {key_to_name[k]}")
+        lines.append(f"- {dim_map[k]['name']}")
 
     lines.append("")
-    lines.append("[추천 프로그램]")
-    for (title, duration, tags, desc) in programs:
-        lines.append(f"- {title} ({duration}) / 태그: {', '.join(tags)} / {desc}")
+    lines.append("[영역별 로드맵 요약]")
+    for k in ordered_dim_keys:
+        d = dim_map[k]
+        s = dim_avg[k]
+        tips = IMPROVEMENTS[k][band(s)][:2]
+        course = PROGRAMS[k]["course"][0]
+        extra = PROGRAMS[k]["extra"][0]
+        lines.append(f"\n- {d['name']} (점수 {s:.2f}/5)")
+        lines.append(f"  · 개선 행동: {tips[0]} / {tips[1]}")
+        lines.append(f"  · 교과: {course['title']} ({course['hours']})")
+        lines.append(f"  · 비교과: {extra['title']} ({extra['hours']})")
 
     st.download_button(
         "결과 TXT 다운로드",
         data="\n".join(lines),
-        file_name="ai_skill_diagnosis_result.txt",
+        file_name="ai_competency_roadmap_result.txt",
         mime="text/plain",
     )
 
 st.markdown(
     "<div class='small' style='margin-top:14px;'>"
-    "※ 본 도구는 교육적 진단/피드백 목적이며, 개인차와 과제 맥락을 함께 고려하는 것이 좋습니다."
+    "※ 본 도구는 교육적 진단/피드백 목적이며, 실제 과제 맥락·전공 특성·수업 규정을 함께 고려해 적용하는 것이 좋습니다."
     "</div>",
     unsafe_allow_html=True,
 )
